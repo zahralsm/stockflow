@@ -296,4 +296,22 @@ Catatan: hasil di atas berasal dari pengujian manual. Uji permintaan bersamaan d
 | Halaman Admin menunjukkan 403                 | Pastikan akun yang digunakan memiliki role Admin.                                      |
 | Tidak bisa menghapus data master              | Periksa apakah data masih dipakai produk atau riwayat transaksi.                       |
 
+## Entity Relationship Diagram (ERD)
+
+ERD berikut menggambarkan hubungan antar tabel pada aplikasi StockFlow — Inventory & Sales Management System.
+
+![ERD StockFlow](docs/erd-stockflow.png)
+
+Hubungan antar tabel pada aplikasi:
+
+- **Users dan Purchases:** mencatat pengguna yang membuat transaksi pembelian.
+- **Users dan Sales:** mencatat pengguna yang membuat transaksi penjualan.
+- **Categories dan Products:** menghubungkan produk dengan kategori.
+- **Suppliers dan Purchases:** menghubungkan transaksi pembelian dengan supplier.
+- **Purchases dan Purchase Items:** menyimpan detail produk dalam transaksi pembelian.
+- **Sales dan Sale Items:** menyimpan detail produk dalam transaksi penjualan.
+- **Products dan Purchase Items/Sale Items:** menghubungkan produk dengan detail pembelian dan penjualan.
+
+Dokumentasi hasil pengujian aplikasi dapat dilihat pada file [`HasilPengujian.docx`](docs/HasilPengujian.docx).
+
 ---
