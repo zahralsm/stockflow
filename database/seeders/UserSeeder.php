@@ -33,6 +33,14 @@ class UserSeeder extends Seeder
                 'password' => 'staff123',
                 'role' => 'staff',
             ],
+            // INI TAMBAHAN AKUN CUSTOMER BARU:
+            [
+                'name' => 'Customer StockFlow',
+                'username' => 'customer',
+                'email' => 'customer@stockflow.test',
+                'password' => 'customer123',
+                'role' => 'customer',
+            ],
         ];
 
         DB::transaction(function () use ($accounts) {
@@ -54,7 +62,7 @@ class UserSeeder extends Seeder
         });
 
         $this->command->info(
-            'Akun demo admin dan staff berhasil disiapkan.'
+            'Akun demo admin, staff, dan customer berhasil disiapkan.'
         );
     }
 }

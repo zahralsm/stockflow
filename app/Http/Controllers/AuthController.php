@@ -39,6 +39,18 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
+        // Ambil data user yang baru saja berhasil login
+        $user = Auth::user();
+
+        // Cek jabatannya (role)
+        if ($user->role === 'customer') {
+            // Kalau customer, belokkan ke halaman katalog produk
+            return redirect()
+                ->route('customer.catalog')
+                ->with('success', 'Selamat datang di Katalog StockFlow!');
+        }
+
+        // Kalau admin atau staff, masuk ke dashboard internal seperti biasa
         return redirect()
             ->intended(route('dashboard'))
             ->with('success', 'Berhasil masuk ke StockFlow.');

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CancellationController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CustomerCatalogController; // <-- TAMBAHAN: Import Controller Katalog Customer
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseController;
@@ -34,6 +35,12 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');
+
+    // ==========================================
+    // TAMBAHAN RUTE KHUSUS CUSTOMER
+    // ==========================================
+    Route::get('/katalog', [CustomerCatalogController::class, 'index'])
+        ->name('customer.catalog');
 
     Route::get('/products', [ProductController::class, 'index'])
         ->name('products.index');

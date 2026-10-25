@@ -280,6 +280,9 @@
 </head>
 
 <body>
+    @php
+        $isCustomer = strtolower(auth()->user()->role ?? '') === 'customer';
+    @endphp
     <aside
         class="offcanvas-lg offcanvas-start sidebar"
         tabindex="-1"
@@ -299,7 +302,7 @@
         </div>
 
         <div class="offcanvas-body d-flex flex-column p-4">
-            <a href="{{ route('dashboard') }}" class="brand">
+            <a href="{{ $isCustomer ? route('products.index') : route('dashboard') }}" class="brand">
                 <span class="brand-icon">
                     <i class="fa-solid fa-cube" aria-hidden="true"></i>
                 </span>
@@ -310,13 +313,15 @@
             <div class="nav-label">RUANG KERJA</div>
 
             <nav aria-label="Menu utama">
-                <a
-                    href="{{ route('dashboard') }}"
-                    class="side-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
-                >
-                    <i class="fa-solid fa-house" aria-hidden="true"></i>
-                    Dashboard
-                </a>
+                @unless ($isCustomer)
+                    <a
+                        href="{{ route('dashboard') }}"
+                        class="side-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
+                    >
+                        <i class="fa-solid fa-house" aria-hidden="true"></i>
+                        Dashboard
+                    </a>
+                @endunless
 
                 <a
                     href="{{ route('products.index') }}"
@@ -326,23 +331,25 @@
                     Produk
                 </a>
 
-                <a
-                    href="{{ route('purchases.index') }}"
-                    class="side-link {{ request()->routeIs('purchases.*') ? 'active' : '' }}"
-                >
-                    <i class="fa-solid fa-cart-flatbed" aria-hidden="true"></i>
-                    Pembelian
-                </a>
+                @unless ($isCustomer)
+                    <a
+                        href="{{ route('purchases.index') }}"
+                        class="side-link {{ request()->routeIs('purchases.*') ? 'active' : '' }}"
+                    >
+                        <i class="fa-solid fa-cart-flatbed" aria-hidden="true"></i>
+                        Pembelian
+                    </a>
 
-                <a
-                    href="{{ route('sales.index') }}"
-                    class="side-link {{ request()->routeIs('sales.*') ? 'active' : '' }}"
-                >
-                    <i class="fa-solid fa-cash-register" aria-hidden="true"></i>
-                    Penjualan
-                </a>
+                    <a
+                        href="{{ route('sales.index') }}"
+                        class="side-link {{ request()->routeIs('sales.*') ? 'active' : '' }}"
+                    >
+                        <i class="fa-solid fa-cash-register" aria-hidden="true"></i>
+                        Penjualan
+                    </a>
+                @endunless
 
-                @if (auth()->user()->isAdmin())
+                @if (!$isCustomer && auth()->user()->isAdmin())
                     <a
                         href="{{ route('categories.index') }}"
                         class="side-link {{ request()->routeIs('categories.*') ? 'active' : '' }}"
@@ -392,7 +399,7 @@
                     </div>
 
                     <div class="muted small mt-1 mb-3">
-                        {{ auth()->user()->isAdmin() ? 'Admin / Owner' : 'Staff' }}
+                        {{ $isCustomer ? 'Customer' : (auth()->user()->isAdmin() ? 'Admin / Owner' : 'Staff') }}
                     </div>
 
                     <form action="{{ route('logout') }}" method="POST">
@@ -426,7 +433,7 @@
             </div>
 
             <span class="badge-soft">
-                {{ auth()->user()->isAdmin() ? 'Admin / Owner' : 'Staff' }}
+                {{ $isCustomer ? 'Customer' : (auth()->user()->isAdmin() ? 'Admin / Owner' : 'Staff') }}
             </span>
         </header>
 
